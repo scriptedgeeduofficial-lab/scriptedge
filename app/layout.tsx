@@ -14,9 +14,45 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ScriptEdge | Academic Work Made Easy",
+  title: {
+    default: "ScriptEdge | Academic Work Made Easy",
+    template: "%s | ScriptEdge",
+  },
+
   description:
-    "Professional academic support for assignments, projects, practical files and more.",
+    "ScriptEdge provides professional academic assistance for assignments, projects, practical files, presentations and other academic work for school, college and university students.",
+
+  keywords: [
+    "ScriptEdge",
+    "academic work",
+    "assignments",
+    "projects",
+    "practical files",
+    "school assignments",
+    "college assignments",
+    "academic assistance",
+  ],
+
+  authors: [
+    {
+      name: "ScriptEdge",
+    },
+  ],
+
+  creator: "ScriptEdge",
+
+  openGraph: {
+    title: "ScriptEdge | Academic Work Made Easy",
+    description:
+      "Professional academic assistance for assignments, projects, practical files and more.",
+    siteName: "ScriptEdge",
+    type: "website",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -29,7 +65,7 @@ export default function RootLayout({
       lang="en"
       className={`${poppins.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full">
         {children}
       </body>
     </html>
