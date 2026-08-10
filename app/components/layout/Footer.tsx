@@ -146,14 +146,24 @@ export default function Footer() {
             </p>
 
             <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
-              {policies.map((policy) => (
-                <span
-                  key={policy}
-                  className="cursor-pointer text-sm text-gray-500 transition hover:text-emerald-400"
-                >
-                  {policy}
-                </span>
-              ))}
+              {policies.map((policy) => {
+  const href =
+    policy === "Privacy Policy"
+      ? "/privacy"
+      : policy === "Terms & Conditions"
+      ? "/terms"
+      : "/refund";
+
+  return (
+    <Link
+      key={policy}
+      href={href}
+      className="text-sm text-gray-500 transition hover:text-emerald-400"
+    >
+      {policy}
+    </Link>
+  );
+})}
             </div>
 
           </div>
