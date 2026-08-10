@@ -1,35 +1,49 @@
 export default function Hero() {
   return (
-    <section className="bg-white py-24">
-      <div className="mx-auto max-w-7xl px-6 text-center">
+    <section className="bg-white px-4 py-14 sm:px-6 sm:py-16 lg:py-24">
+      <div className="mx-auto max-w-7xl text-center">
 
-        <span className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700">
+        {/* Trust Badge */}
+        <span className="inline-block rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-700 sm:px-4 sm:py-2 sm:text-sm">
           India's Trusted Academic Assistance Platform
         </span>
 
-        <h1 className="mt-8 text-6xl font-extrabold leading-tight text-gray-900">
-          Complete Your
-          <span className="text-emerald-600"> Assignments</span>,
-          <br />
-          Projects & Practical Files
-          <br />
-          Without Stress
-        </h1>
+        {/* Main Heading */}
+      <h1 className="mx-auto mt-8 max-w-6xl text-center text-4xl font-extrabold leading-[1.1] tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+  <span className="block">
+    Complete Your{" "}
+    <span className="text-emerald-600">Assignments</span>,
+  </span>
 
-        <p className="mx-auto mt-8 max-w-3xl text-xl leading-8 text-gray-600">
-          ScriptEdge helps students complete assignments,
-          practical files, project reports, presentations
-          and academic work before deadlines.
+  <span className="block">
+    Projects & Practical Files Without Stress
+  </span>
+</h1>
+        {/* Description */}
+        <p className="mx-auto mt-7 max-w-3xl text-base leading-7 text-gray-600 sm:text-lg sm:leading-8 lg:text-xl">
+          ScriptEdge helps students complete assignments, practical files,
+          project reports, presentations and academic work before deadlines.
         </p>
 
-        <div className="mt-10 flex justify-center gap-5">
-          <button className="rounded-xl bg-emerald-600 px-8 py-4 text-lg font-semibold text-white hover:bg-emerald-700">
-            Order Now
-          </button>
+        {/* Buttons */}
+        <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
 
-          <button className="rounded-xl border border-gray-300 px-8 py-4 text-lg font-semibold hover:bg-gray-100">
-            View Services
-          </button>
+          <a
+           href="https://wa.me/918252517340"
+            target="_blank"
+           rel="noopener noreferrer"
+           className="w-full rounded-xl bg-emerald-600 px-8 py-3.5 text-center text-base font-semibold text-white transition hover:bg-emerald-700 sm:w-auto sm:py-4 sm:text-lg"
+          >
+          Order Now
+          </a>
+
+          <a
+  href="/services"
+  className="w-full rounded-xl border border-gray-300 bg-white px-8 py-3.5 text-center text-base font-semibold text-gray-900 transition hover:bg-gray-100 sm:w-auto sm:py-4 sm:text-lg"
+>
+  View Services
+</a>
+
         </div>
 
       </div>

@@ -1,11 +1,17 @@
 import Link from "next/link";
+import {
+  Phone,
+  Mail,
+  Camera,
+  MapPin,
+} from "lucide-react";
 
 const quickLinks = [
-  { name: "Home", href: "#" },
-  { name: "Services", href: "#" },
-  { name: "Pricing", href: "#" },
-  { name: "FAQ", href: "#" },
-  { name: "Contact", href: "#" },
+  { name: "Home", href: "/#top" },
+  { name: "Services", href: "/services" },
+  { name: "Pricing", href: "/pricing" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const services = [
@@ -24,124 +30,141 @@ const policies = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-gray-950 text-white">
+      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-16">
 
-      <div className="mx-auto max-w-7xl px-6 py-16">
-
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
 
           {/* Brand */}
-
           <div>
-
-            <h2 className="text-3xl font-bold text-emerald-400">
+            <Link
+              href="/#top"
+              className="text-3xl font-bold text-emerald-400"
+            >
               ScriptEdge
-            </h2>
+            </Link>
 
-            <p className="mt-5 text-gray-300 leading-7">
+            <p className="mt-5 max-w-sm text-sm leading-7 text-gray-400 sm:text-base">
               Academic Work Made Easy.
               We help school and college students complete
               assignments, projects, practical files and academic work
               before deadlines.
             </p>
-
           </div>
 
           {/* Quick Links */}
-
           <div>
-
-            <h3 className="text-xl font-semibold">
+            <h3 className="text-lg font-semibold">
               Quick Links
             </h3>
 
             <ul className="mt-5 space-y-3">
-
               {quickLinks.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-300 hover:text-emerald-400 transition"
+                    className="text-sm text-gray-400 transition hover:text-emerald-400 sm:text-base"
                   >
                     {item.name}
                   </Link>
                 </li>
               ))}
-
             </ul>
-
           </div>
 
           {/* Services */}
-
           <div>
-
-            <h3 className="text-xl font-semibold">
+            <h3 className="text-lg font-semibold">
               Services
             </h3>
 
             <ul className="mt-5 space-y-3">
-
               {services.map((service) => (
                 <li
                   key={service}
-                  className="text-gray-300"
+                  className="text-sm text-gray-400 sm:text-base"
                 >
                   {service}
                 </li>
               ))}
-
             </ul>
-
           </div>
 
           {/* Contact */}
-
           <div>
-
-            <h3 className="text-xl font-semibold">
+            <h3 className="text-lg font-semibold">
               Contact
             </h3>
 
-            <div className="mt-5 space-y-3 text-gray-300">
+            <div className="mt-5 space-y-4">
 
-              <p>
-                📞 +91 YOUR NUMBER
-              </p>
+              <a
+                href="https://wa.me/918252517340"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm text-gray-400 transition hover:text-emerald-400 sm:text-base"
+              >
+                <Phone size={18} />
+                <span>+91 8252517340</span>
+              </a>
 
-              <p>
-                📧 scriptedge.eduofficial@gmail.com
-              </p>
+              <a
+                href="mailto:scriptedge.eduofficial@gmail.com"
+                className="flex items-center gap-3 text-sm text-gray-400 transition hover:text-emerald-400 sm:text-base"
+              >
+                <Mail size={18} />
+                <span>scriptedge.eduofficial@gmail.com</span>
+              </a>
 
-              <p>
-                📍 Sasaram, Bihar
-              </p>
+              <a
+                href="https://instagram.com/scriptedge_official.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm text-gray-400 transition hover:text-emerald-400 sm:text-base"
+              >
+                <Camera size={18} />
+                <span>@scriptedge_official.in</span>
+              </a>
 
-              <p>
-                📷 @scriptedge_official.in
-              </p>
+              <div className="flex items-center gap-3 text-sm text-gray-400 sm:text-base">
+                <MapPin size={18} />
+                <span>Sasaram, Bihar</span>
+              </div>
 
+            </div>
+          </div>
+
+        </div>
+
+        {/* Policies */}
+        <div className="mt-12 border-t border-gray-800 pt-8">
+
+          <div className="flex flex-col items-center justify-between gap-5 text-center sm:flex-row sm:text-left">
+
+            <p className="text-sm text-gray-500">
+              © {new Date().getFullYear()} ScriptEdge. All Rights Reserved.
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+              {policies.map((policy) => (
+                <span
+                  key={policy}
+                  className="cursor-pointer text-sm text-gray-500 transition hover:text-emerald-400"
+                >
+                  {policy}
+                </span>
+              ))}
             </div>
 
           </div>
 
-        </div>
-
-        <div className="mt-14 border-t border-gray-700 pt-8 text-center text-gray-400">
-
-          © {new Date().getFullYear()} ScriptEdge.
-          All Rights Reserved.
-
-          <br />
-
-          <span className="text-sm">
+          <p className="mt-5 text-center text-sm text-gray-600">
             Made with ❤️ for Students
-          </span>
+          </p>
 
         </div>
 
       </div>
-
     </footer>
   );
 }
