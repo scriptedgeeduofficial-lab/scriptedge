@@ -23,7 +23,7 @@ const reviews = [
 
 export default function Testimonials() {
   return (
-    <section className="bg-white py-20 sm:py-24">
+    <section className="overflow-x-hidden bg-white py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
 
         {/* Section Heading */}
@@ -42,7 +42,7 @@ export default function Testimonials() {
           {reviews.map((review) => (
             <div
               key={`${review.name}-${review.course}`}
-              className="group relative rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:bg-white hover:shadow-lg sm:p-8"
+              className="group relative min-w-0 rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:bg-white hover:shadow-lg sm:p-8"
             >
 
              

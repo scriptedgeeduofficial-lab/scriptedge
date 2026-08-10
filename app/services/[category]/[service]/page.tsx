@@ -265,11 +265,24 @@ export default async function ServiceDetailPage({
       <AnnouncementBar />
       <Navbar />
 
-      <main className="bg-gray-50">
+ <main className="bg-gray-50">
 
-        {/* Hero */}
+  {/* Back Button */}
+  <div className="border-b bg-white">
+    <div className="mx-auto max-w-6xl px-4 py-3 sm:px-6">
+      <Link
+        href="/services"
+        aria-label="Back to Services"
+        title="Back to Services"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-xl text-gray-600 shadow-sm transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-600"
+      >
+        ←
+      </Link>
+    </div>
+  </div>
 
-        <section className="bg-gradient-to-r from-emerald-600 to-green-500 py-20 text-white">
+  {/* Hero */}
+  <section className="bg-gradient-to-r from-emerald-600 to-green-500 py-20 text-white">
           <div className="mx-auto max-w-6xl px-6 text-center">
 
             <p className="text-sm font-semibold uppercase tracking-widest text-emerald-100">

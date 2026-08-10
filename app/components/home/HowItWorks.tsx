@@ -30,7 +30,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="bg-gray-50 py-20 sm:py-24">
+    <section className="overflow-x-hidden bg-gray-50 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
 
         {/* Section Heading */}
@@ -54,7 +54,7 @@ export default function HowItWorks() {
             return (
               <div
                 key={step.title}
-                className="group rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg sm:p-8"
+                className="group min-w-0 rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg sm:p-8"
               >
 
                 {/* Icon */}

@@ -42,8 +42,8 @@ const services = [
 
 export default function Services() {
   return (
-    <section className="bg-gray-50 py-20 sm:py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6">
+    <section className="overflow-x-hidden bg-gray-50 py-20 sm:py-24">
+  <div className="mx-auto max-w-7xl px-5 sm:px-6">
 
         {/* Section Heading */}
         <div className="text-center">
@@ -64,7 +64,7 @@ export default function Services() {
             return (
               <div
                 key={service.title}
-                className="group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg sm:p-8"
+                className="group min-w-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg sm:p-8"
               >
                 <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 transition-colors duration-300 group-hover:bg-emerald-600 group-hover:text-white">
                   <Icon size={30} strokeWidth={1.8} />

@@ -2,7 +2,7 @@ import { MessageCircle, Mail, Camera } from "lucide-react";
 
 export default function Contact() {
   return (
-    <section className="bg-gray-50 py-20 sm:py-24">
+    <section className="overflow-x-hidden bg-gray-50 py-20 sm:py-24">
       <div className="mx-auto max-w-5xl px-5 text-center sm:px-6">
 
         {/* Heading */}
@@ -22,7 +22,7 @@ export default function Contact() {
             href="https://wa.me/918252517340"
             target="_blank"
             rel="noopener noreferrer"
-            className="group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg"
+            className="group min-w-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg"
           >
             <MessageCircle
               className="mx-auto text-emerald-600 transition-transform group-hover:scale-110"
@@ -42,7 +42,7 @@ export default function Contact() {
              href="https://mail.google.com/mail/?view=cm&fs=1&to=scriptedge.eduofficial@gmail.com"
   target="_blank"
   rel="noopener noreferrer"
-            className="group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg"
+            className="group min-w-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg"
           >
             <Mail
               className="mx-auto text-emerald-600 transition-transform group-hover:scale-110"
@@ -62,7 +62,7 @@ export default function Contact() {
             href="https://instagram.com/scriptedge_official.in"
             target="_blank"
             rel="noopener noreferrer"
-            className="group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg"
+            className="group min-w-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg"
           >
             <Camera
               className="mx-auto text-emerald-600 transition-transform group-hover:scale-110"

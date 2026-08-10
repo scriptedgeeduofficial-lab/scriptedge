@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <nav className="w-full border-b bg-white">
-      <div className="mx-auto max-w-7xl px-6">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6">
 
         {/* Desktop / Mobile Header */}
         <div className="flex h-16 items-center justify-between">

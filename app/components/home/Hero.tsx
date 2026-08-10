@@ -1,15 +1,15 @@
 export default function Hero() {
   return (
-    <section className="bg-white px-4 py-14 sm:px-6 sm:py-16 lg:py-24">
+    <section className="overflow-x-hidden bg-white px-4 py-14 sm:px-6 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl text-center">
 
         {/* Trust Badge */}
-        <span className="inline-block rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-700 sm:px-4 sm:py-2 sm:text-sm">
+        <span className="inline-block max-w-[90%] rounded-full bg-emerald-100 px-3 py-1.5 text-center text-xs font-semibold text-emerald-700 sm:max-w-none sm:px-4 sm:py-2 sm:text-sm">
           India's Trusted Academic Assistance Platform
         </span>
 
         {/* Main Heading */}
-      <h1 className="mx-auto mt-8 max-w-6xl text-center text-4xl font-extrabold leading-[1.1] tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+      <h1 className="mx-auto mt-6 max-w-4xl px-4 text-center text-3xl font-extrabold leading-tight tracking-tight text-gray-900 sm:mt-8 sm:px-0 sm:text-5xl lg:text-6xl">
   <span className="block">
     Complete Your{" "}
     <span className="text-emerald-600">Assignments</span>,

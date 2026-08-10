@@ -41,12 +41,23 @@ export const metadata: Metadata = {
 
   creator: "ScriptEdge",
 
+  icons: {
+    icon: "/favicon.ico",
+  },
+
   openGraph: {
     title: "ScriptEdge | Academic Work Made Easy",
     description:
       "Professional academic assistance for assignments, projects, practical files and more.",
     siteName: "ScriptEdge",
     type: "website",
+  },
+
+  twitter: {
+    card: "summary",
+    title: "ScriptEdge | Academic Work Made Easy",
+    description:
+      "Professional academic assistance for assignments, projects, practical files and more.",
   },
 
   robots: {
@@ -65,9 +76,7 @@ export default function RootLayout({
       lang="en"
       className={`${poppins.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full">
-        {children}
-      </body>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }
