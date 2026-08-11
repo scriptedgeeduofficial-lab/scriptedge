@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import AnnouncementBar from "../components/layout/AnnouncementBar";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+
+export const metadata: Metadata = {
+  title: "Refund Policy",
+  description:
+    "Read the ScriptEdge Refund Policy to understand the terms and conditions related to refunds for our academic assistance services.",
+};
 
 export default function RefundPolicyPage() {
   return (

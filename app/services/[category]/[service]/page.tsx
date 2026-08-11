@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import AnnouncementBar from "../../../components/layout/AnnouncementBar";
 import Navbar from "../../../components/layout/Navbar";
@@ -220,6 +221,35 @@ const serviceDetails: Record<
     ],
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{
+    category: string;
+    service: string;
+  }>;
+}): Promise<Metadata> {
+  const { service } = await params;
+
+  const serviceInfo = serviceDetails[service];
+
+  const title =
+    serviceInfo?.title ||
+    service
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
+  const description =
+    serviceInfo?.description ||
+    "Professional academic assistance prepared according to your requirements and submission deadline.";
+
+  return {
+    title,
+    description,
+  };
+}
 
 export default async function ServiceDetailPage({
   params,

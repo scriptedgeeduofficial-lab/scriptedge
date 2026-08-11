@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import AnnouncementBar from "../components/layout/AnnouncementBar";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Read the ScriptEdge Privacy Policy to understand how we handle information when you use our website and academic assistance services.",
+};
 
 export default function PrivacyPolicyPage() {
   return (

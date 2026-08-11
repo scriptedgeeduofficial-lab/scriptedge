@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import AnnouncementBar from "../components/layout/AnnouncementBar";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
 import { about } from "../data/about";
+
+export const metadata: Metadata = {
+  title: "About ScriptEdge",
+  description:
+    "Learn about ScriptEdge, our mission, vision and commitment to providing quality, affordable and reliable academic assistance to students.",
+};
 
 export default function AboutPage() {
   return (

@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import AnnouncementBar from "../components/layout/AnnouncementBar";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
 import { Mail, MapPin, Phone, Camera } from "lucide-react";
 import { contactInfo } from "../data/contact";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Contact ScriptEdge for academic assistance with assignments, projects, practical files, presentations and other student work.",
+};
 
 export default function ContactPage() {
   const whatsappLink = `https://wa.me/${contactInfo.phone}?text=${encodeURIComponent(

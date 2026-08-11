@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CheckCircle, ArrowRight } from "lucide-react";
 import { pricingPlans } from "../data/pricing";
 
+
 export default function PricingPage() {
   const [selectedPlan, setSelectedPlan] = useState("Standard");
 

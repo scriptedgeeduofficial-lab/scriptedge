@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import AnnouncementBar from "../components/layout/AnnouncementBar";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions",
+  description:
+    "Read the ScriptEdge Terms & Conditions governing the use of our website and academic assistance services.",
+};
 
 export default function TermsPage() {
   return (
