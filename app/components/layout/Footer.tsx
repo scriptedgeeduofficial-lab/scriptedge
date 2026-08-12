@@ -15,11 +15,26 @@ const quickLinks = [
 ];
 
 const services = [
-  "Assignments",
-  "Projects",
-  "Practical Files",
-  "Presentations",
-  "Holiday Homework",
+  {
+    name: "Assignments",
+    href: "/services/school-services/assignments",
+  },
+  {
+    name: "Projects",
+    href: "/services/school-services/projects",
+  },
+  {
+    name: "Practical Files",
+    href: "/services/school-services/practical-files",
+  },
+  {
+    name: "Presentations",
+    href: "/services/digital-services/powerpoint-presentations",
+  },
+  {
+    name: "Holiday Homework",
+    href: "/services/school-services/holiday-homework",
+  },
 ];
 
 const policies = [
@@ -80,13 +95,15 @@ export default function Footer() {
 
             <ul className="mt-5 space-y-3">
               {services.map((service) => (
-                <li
-                  key={service}
-                  className="text-sm text-gray-400 sm:text-base"
-                >
-                  {service}
-                </li>
-              ))}
+  <li key={service.name}>
+    <Link
+      href={service.href}
+      className="text-sm text-gray-400 transition hover:text-emerald-400 sm:text-base"
+    >
+      {service.name}
+    </Link>
+  </li>
+))}
             </ul>
           </div>
 
