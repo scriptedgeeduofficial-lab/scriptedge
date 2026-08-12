@@ -46,9 +46,9 @@ const policies = [
 export default function Footer() {
   return (
     <footer className="overflow-x-hidden bg-gray-950 text-white">
-      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-16">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-14">
 
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
 
           {/* Brand */}
           <div>
@@ -95,15 +95,15 @@ export default function Footer() {
 
             <ul className="mt-5 space-y-3">
               {services.map((service) => (
-  <li key={service.name}>
-    <Link
-      href={service.href}
-      className="text-sm text-gray-400 transition hover:text-emerald-400 sm:text-base"
-    >
-      {service.name}
-    </Link>
-  </li>
-))}
+          <li key={service.name}>
+            <Link
+             href={service.href}
+             className="text-sm text-gray-400 transition hover:text-emerald-400 sm:text-base"
+            >
+           {service.name}
+         </Link>
+        </li>
+      ))}
             </ul>
           </div>
 
@@ -154,7 +154,7 @@ export default function Footer() {
         </div>
 
         {/* Policies */}
-        <div className="mt-12 border-t border-gray-800 pt-8">
+        <div className="mt-8 border-t border-gray-800 pt-5">
 
           <div className="flex flex-col items-center justify-between gap-5 text-center sm:flex-row sm:text-left">
 
@@ -185,7 +185,7 @@ export default function Footer() {
 
           </div>
 
-          <p className="mt-5 text-center text-sm text-gray-600">
+          <p className="mt-4 text-center text-sm text-gray-600">
             Made with ❤️ for Students
           </p>
 
