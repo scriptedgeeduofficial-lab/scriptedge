@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 const quickLinks = [
-  { name: "Home", href: "/#top" },
+  { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
   { name: "Pricing", href: "/pricing" },
   { name: "About", href: "/about" },
@@ -38,7 +38,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link
-              href="/#top"
+              href="/"
               className="text-3xl font-bold text-emerald-400"
             >
               ScriptEdge
