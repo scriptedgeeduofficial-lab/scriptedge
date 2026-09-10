@@ -60,9 +60,10 @@ export default function Testimonials() {
               </div>
 
               {/* Review */}
-              <p className="mt-5 text-sm leading-7 text-gray-600 sm:text-base">
-                "{review.review}"
-              </p>
+              <p className="mt-5 text-sm leading-7 text-gray-600 sm:text-base">    
+             &quot;{review.review}&quot;
+            </p>
+            
 
               {/* Student */}
               <div className="mt-7 border-t border-gray-200 pt-5">

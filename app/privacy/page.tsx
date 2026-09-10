@@ -116,9 +116,9 @@ export default function PrivacyPolicyPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-bold text-gray-900">
-                  7. Children's Privacy
-                </h2>
+               <h2 className="text-2xl font-bold text-gray-900">
+                 7. Children&apos;s Privacy
+                 </h2>
 
                 <p className="mt-4">
                   Our services may be used by students of different age

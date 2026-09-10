@@ -21,9 +21,9 @@ export default function NotFound() {
           </h1>
 
           <p className="mx-auto mt-4 max-w-xl text-lg leading-8 text-gray-600">
-            Sorry, the page you are looking for doesn't exist or may have
-            been moved. Let's get you back to ScriptEdge.
-          </p>
+  Sorry, the page you are looking for doesn&apos;t exist or may have
+  been moved. Let&apos;s get you back to ScriptEdge.
+</p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link

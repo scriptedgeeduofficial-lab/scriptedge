@@ -55,12 +55,12 @@ export default function TermsPage() {
                 </h2>
 
                 <p className="mt-4">
-                  Our services are intended to provide academic
-                  assistance, guidance, formatting, documentation and
-                  related support. Customers are responsible for using
-                  completed work appropriately and in accordance with
-                  their institution's academic policies.
-                </p>
+                      Our services are intended to provide academic
+                      assistance, guidance, formatting, documentation and
+                      related support. Customers are responsible for using
+                       completed work appropriately and in accordance with
+                      their institution&apos;s academic policies.
+                    </p>
               </section>
 
               <section>

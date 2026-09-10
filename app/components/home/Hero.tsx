@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function Hero() {
   return (
     <section className="overflow-x-hidden bg-white px-4 py-14 sm:px-6 sm:py-16 lg:py-24">
@@ -5,7 +6,7 @@ export default function Hero() {
 
         {/* Trust Badge */}
         <span className="inline-block max-w-[90%] rounded-full bg-emerald-100 px-3 py-1.5 text-center text-xs font-semibold text-emerald-700 sm:max-w-none sm:px-4 sm:py-2 sm:text-sm">
-          India's Trusted Academic Assistance Platform
+          India&apos;s Trusted Academic Assistance Platform
         </span>
 
         {/* Main Heading */}
@@ -37,12 +38,12 @@ export default function Hero() {
           Order Now
           </a>
 
-          <a
+          <Link
   href="/services"
   className="w-full rounded-xl border border-gray-300 bg-white px-8 py-3.5 text-center text-base font-semibold text-gray-900 transition hover:bg-gray-100 sm:w-auto sm:py-4 sm:text-lg"
 >
   View Services
-</a>
+</Link>
 
         </div>
 
