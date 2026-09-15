@@ -56,6 +56,7 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -76,6 +77,7 @@ export default function LoginPage() {
               />
             </div>
 
+            {/* Password */}
             <div>
               <label
                 htmlFor="password"
@@ -94,14 +96,26 @@ export default function LoginPage() {
                 className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
                 disabled={loading}
               />
+
+              {/* Forgot Password */}
+              <div className="mt-1 text-right">
+                <Link
+                  href="/forgot-password"
+                  className="text-sm font-medium text-rose-600 hover:text-rose-700 hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              </div>
             </div>
 
+            {/* Error Message */}
             {error && (
               <div className="rounded-lg bg-red-50 px-3 py-2.5 text-sm text-red-700">
                 {error}
               </div>
             )}
 
+            {/* Sign In Button */}
             <button
               type="submit"
               disabled={loading}
@@ -111,11 +125,12 @@ export default function LoginPage() {
             </button>
           </form>
 
+          {/* Register Link */}
           <p className="mt-6 text-center text-sm text-slate-600">
             Don't have an account?{" "}
             <Link
               href="/register"
-              className="font-semibold text-slate-900 hover:underline"
+              className="font-semibold text-emerald-600 hover:text-emerald-700 hover:underline"
             >
               Create an account
             </Link>

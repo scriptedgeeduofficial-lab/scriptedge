@@ -71,7 +71,7 @@ export default async function OrdersPage() {
     <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
       <div>
         <p className="text-sm font-medium text-emerald-600">
-          {order.orderNumber}
+          Order ID: Order ID: {order.orderNumber}
         </p>
 
         <h2 className="mt-1 text-xl font-bold text-gray-900">
