@@ -23,6 +23,19 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      {/* Back to Home */}
+
+      <div className="border-b bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-4">
+          <Link
+            href="/"
+            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700"
+          >
+            ← Back to Home
+          </Link>
+        </div>
+      </div>
+
       {/* Categories */}
 
       <section className="py-20">
