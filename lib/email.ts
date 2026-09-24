@@ -7,7 +7,7 @@ export async function sendPasswordResetEmail(
   resetUrl: string
 ) {
   const { data, error } = await resend.emails.send({
-    from: "ScriptEdge <onboarding@resend.dev>",
+    from: "ScriptEdge <noreply@scriptedge.co.in>",
     to: email,
     subject: "Reset your ScriptEdge password",
     html: `
