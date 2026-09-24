@@ -7,6 +7,11 @@ import { sendPasswordResetEmail } from "./email";
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
 
+  trustedOrigins: [
+    "https://scriptedge.co.in",
+    "https://www.scriptedge.co.in",
+  ],
+
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
