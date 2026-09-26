@@ -1,8 +1,34 @@
 import type { MetadataRoute } from "next";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.scriptedge.co.in";
+const baseUrl = "https://www.scriptedge.co.in";
 
+const servicePages = [
+  // School
+  "school-services/assignments",
+  "school-services/holiday-homework",
+  "school-services/projects",
+  "school-services/charts-and-models",
+  "school-services/practical-files",
+  "school-services/notebooks",
+
+  // College
+  "college-services/assignments",
+  "college-services/project-reports",
+  "college-services/practical-files",
+  "college-services/seminars",
+  "college-services/research-work",
+  "college-services/lab-records",
+
+  // Digital
+  "digital-services/powerpoint-presentations",
+  "digital-services/pdf-editing",
+  "digital-services/typing-work",
+  "digital-services/document-formatting",
+  "digital-services/resume",
+  "digital-services/cover-pages",
+];
+
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: baseUrl,
@@ -52,5 +78,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+
+    ...servicePages.map((service) => ({
+      url: `${baseUrl}/services/${service}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
   ];
 }
