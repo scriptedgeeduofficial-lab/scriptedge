@@ -98,6 +98,7 @@ export async function POST(request: Request) {
         orderNumber: generateOrderNumber(),
         userId: session.user.id,
         service,
+        plan,
         title,
         details,
         status: "PENDING",

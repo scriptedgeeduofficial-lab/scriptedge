@@ -131,6 +131,8 @@ export const orders = pgTable(
 
     service: text("service").notNull(),
 
+    plan: text("plan").notNull(),
+
     title: text("title").notNull(),
 
     details: text("details"),

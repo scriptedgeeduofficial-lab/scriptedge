@@ -1,0 +1,1 @@
+ALTER TABLE "orders" ADD COLUMN "plan" text NOT NULL;
