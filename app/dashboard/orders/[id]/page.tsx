@@ -66,7 +66,7 @@ export default async function OrderDetailsPage({
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="text-sm font-medium text-emerald-600">
-                Order ID: Order ID: {order.orderNumber}
+                Order ID: {order.orderNumber}
               </p>
 
               <h1 className="mt-2 text-3xl font-bold text-gray-900">
@@ -76,6 +76,10 @@ export default async function OrderDetailsPage({
               <p className="mt-2 text-gray-600">
                 {order.service}
               </p>
+
+              <p className="mt-1 text-sm text-gray-500">
+  Plan: {order.plan}
+</p>
             </div>
 
             <span className="inline-flex w-fit rounded-full bg-yellow-50 px-3 py-1 text-xs font-semibold text-yellow-700">
