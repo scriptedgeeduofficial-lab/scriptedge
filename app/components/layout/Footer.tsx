@@ -41,6 +41,7 @@ const policies = [
   "Privacy Policy",
   "Terms & Conditions",
   "Refund Policy",
+  "Delivery & Service Policy",
 ];
 
 export default function Footer() {
@@ -95,15 +96,15 @@ export default function Footer() {
 
             <ul className="mt-5 space-y-3">
               {services.map((service) => (
-          <li key={service.name}>
-            <Link
-             href={service.href}
-             className="text-sm text-gray-400 transition hover:text-emerald-400 sm:text-base"
-            >
-           {service.name}
-         </Link>
-        </li>
-      ))}
+                <li key={service.name}>
+                  <Link
+                    href={service.href}
+                    className="text-sm text-gray-400 transition hover:text-emerald-400 sm:text-base"
+                  >
+                    {service.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -164,23 +165,25 @@ export default function Footer() {
 
             <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
               {policies.map((policy) => {
-  const href =
-    policy === "Privacy Policy"
-      ? "/privacy"
-      : policy === "Terms & Conditions"
-      ? "/terms"
-      : "/refund";
+                const href =
+                  policy === "Privacy Policy"
+                    ? "/privacy"
+                    : policy === "Terms & Conditions"
+                    ? "/terms"
+                    : policy === "Refund Policy"
+                    ? "/refund"
+                    : "/delivery";
 
-  return (
-    <Link
-      key={policy}
-      href={href}
-      className="text-sm text-gray-500 transition hover:text-emerald-400"
-    >
-      {policy}
-    </Link>
-  );
-})}
+                return (
+                  <Link
+                    key={policy}
+                    href={href}
+                    className="text-sm text-gray-500 transition hover:text-emerald-400"
+                  >
+                    {policy}
+                  </Link>
+                );
+              })}
             </div>
 
           </div>
