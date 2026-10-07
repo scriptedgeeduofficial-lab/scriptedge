@@ -19,9 +19,9 @@ export const user = pgTable("user", {
 
   image: text("image"),
 
-writerCode: text("writer_code").unique(),
+  writerCode: text("writer_code").unique(),
 
-role: text("role").default("CUSTOMER").notNull(),
+  role: text("role").default("CUSTOMER").notNull(),
 
   createdAt: timestamp("created_at").defaultNow().notNull(),
 
@@ -139,13 +139,27 @@ export const orders = pgTable(
 
     status: text("status").notNull().default("PENDING"),
 
-amount: integer("amount").notNull().default(0),
+    amount: integer("amount").notNull().default(0),
 
-paymentMethod: text("payment_method").notNull().default("COD"),
+    paymentMethod: text("payment_method").notNull().default("COD"),
 
-paymentStatus: text("payment_status").notNull().default("PENDING"),
+    paymentStatus: text("payment_status").notNull().default("PENDING"),
 
-createdAt: timestamp("created_at").defaultNow().notNull(),
+    // Customer contact and delivery information.
+    // Nullable so existing orders remain valid.
+    customerPhone: text("customer_phone"),
+
+    deliveryType: text("delivery_type"),
+
+    deliveryAddress: text("delivery_address"),
+
+    city: text("city"),
+
+    state: text("state"),
+
+    pincode: text("pincode"),
+
+    createdAt: timestamp("created_at").defaultNow().notNull(),
 
     updatedAt: timestamp("updated_at")
       .defaultNow()
@@ -156,6 +170,45 @@ createdAt: timestamp("created_at").defaultNow().notNull(),
     index("orders_userId_idx").on(table.userId),
     index("orders_writerId_idx").on(table.writerId),
     index("orders_status_idx").on(table.status),
+  ],
+);
+
+export const invoices = pgTable(
+  "invoices",
+  {
+    id: text("id").primaryKey(),
+
+    invoiceNumber: text("invoice_number").notNull().unique(),
+
+    orderId: text("order_id")
+      .notNull()
+      .unique()
+      .references(() => orders.id, { onDelete: "cascade" }),
+
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+
+    invoiceDate: timestamp("invoice_date").defaultNow().notNull(),
+
+    subtotal: integer("subtotal").notNull().default(0),
+
+    total: integer("total").notNull().default(0),
+
+    paymentMethod: text("payment_method").notNull(),
+
+    paymentStatus: text("payment_status").notNull().default("PENDING"),
+
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [
+    index("invoices_userId_idx").on(table.userId),
+    index("invoices_orderId_idx").on(table.orderId),
   ],
 );
 
@@ -171,6 +224,8 @@ export const userRelations = relations(user, ({ many }) => ({
   writerOrders: many(orders, {
     relationName: "writerOrders",
   }),
+
+  invoices: many(invoices),
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
@@ -199,7 +254,25 @@ export const orderRelations = relations(orders, ({ one }) => ({
     references: [user.id],
     relationName: "writerOrders",
   }),
+
+  invoice: one(invoices, {
+    fields: [orders.id],
+    references: [invoices.orderId],
+  }),
 }));
+
+export const invoiceRelations = relations(invoices, ({ one }) => ({
+  order: one(orders, {
+    fields: [invoices.orderId],
+    references: [orders.id],
+  }),
+
+  customer: one(user, {
+    fields: [invoices.userId],
+    references: [user.id],
+  }),
+}));
+
 export const orderStatusHistory = pgTable(
   "order_status_history",
   {

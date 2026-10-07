@@ -18,8 +18,16 @@ export default function OrderForm({
   const [plan, setPlan] = useState(initialPlan);
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
-const [paymentMethod, setPaymentMethod] = useState("COD");
-const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("COD");
+
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [deliveryType, setDeliveryType] = useState("DIGITAL");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [pincode, setPincode] = useState("");
+
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -27,9 +35,32 @@ const [loading, setLoading] = useState(false);
 
     setError("");
 
-    if (!service || !plan || !title.trim() || !details.trim()) {
-      setError("Please complete all fields.");
+    if (
+      !service ||
+      !plan ||
+      !title.trim() ||
+      !details.trim() ||
+      !customerPhone.trim()
+    ) {
+      setError("Please complete all required fields.");
       return;
+    }
+
+    if (deliveryType === "PHYSICAL") {
+      if (
+        !deliveryAddress.trim() ||
+        !city.trim() ||
+        !state.trim() ||
+        !pincode.trim()
+      ) {
+        setError("Please complete your delivery address.");
+        return;
+      }
+
+      if (!/^\d{6}$/.test(pincode.trim())) {
+        setError("Please enter a valid 6-digit PIN code.");
+        return;
+      }
     }
 
     try {
@@ -40,13 +71,22 @@ const [loading, setLoading] = useState(false);
         headers: {
           "Content-Type": "application/json",
         },
-body: JSON.stringify({
-  service,
-  plan,
-  title: title.trim(),
-  details: details.trim(),
-  paymentMethod,
-}),
+        body: JSON.stringify({
+          service,
+          plan,
+          title: title.trim(),
+          details: details.trim(),
+          paymentMethod,
+          customerPhone: customerPhone.trim(),
+          deliveryType,
+          deliveryAddress:
+            deliveryType === "PHYSICAL"
+              ? deliveryAddress.trim()
+              : "",
+          city: deliveryType === "PHYSICAL" ? city.trim() : "",
+          state: deliveryType === "PHYSICAL" ? state.trim() : "",
+          pincode: deliveryType === "PHYSICAL" ? pincode.trim() : "",
+        }),
       });
 
       const data = await response.json();
@@ -61,7 +101,7 @@ body: JSON.stringify({
       setError(
         error instanceof Error
           ? error.message
-          : "Something went wrong. Please try again."
+          : "Something went wrong. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -70,7 +110,6 @@ body: JSON.stringify({
 
   return (
     <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-
       <div>
         <label
           htmlFor="service"
@@ -140,54 +179,211 @@ body: JSON.stringify({
       </div>
 
       <div>
-  <p className="block text-sm font-semibold text-gray-900">
-    Payment Method
-  </p>
+        <label
+          htmlFor="customerPhone"
+          className="block text-sm font-semibold text-gray-900"
+        >
+          Phone / WhatsApp Number
+        </label>
 
-  <div className="mt-3 space-y-3">
-    <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
-      <input
-        type="radio"
-        name="paymentMethod"
-        value="COD"
-        checked={paymentMethod === "COD"}
-        onChange={(event) => setPaymentMethod(event.target.value)}
-        className="mt-1"
-      />
+        <input
+          id="customerPhone"
+          type="tel"
+          value={customerPhone}
+          onChange={(event) => setCustomerPhone(event.target.value)}
+          placeholder="e.g. 9876543210"
+          inputMode="numeric"
+          maxLength={10}
+          className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+        />
 
-      <div>
-        <p className="font-semibold text-gray-900">
-          Cash on Delivery (COD)
-        </p>
-
-        <p className="mt-1 text-sm text-gray-500">
-          Pay when your order is delivered.
+        <p className="mt-1 text-xs text-gray-500">
+          We may use this number for order updates and delivery coordination.
         </p>
       </div>
-    </label>
-
-    <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
-      <input
-        type="radio"
-        name="paymentMethod"
-        value="UPI"
-        checked={paymentMethod === "UPI"}
-        onChange={(event) => setPaymentMethod(event.target.value)}
-        className="mt-1"
-      />
 
       <div>
-        <p className="font-semibold text-gray-900">
-          UPI / QR Code
+        <p className="block text-sm font-semibold text-gray-900">
+          Delivery Type
         </p>
 
-        <p className="mt-1 text-sm text-gray-500">
-          We will send you the UPI QR code through WhatsApp after your order is placed.
-        </p>
+        <div className="mt-3 space-y-3">
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
+            <input
+              type="radio"
+              name="deliveryType"
+              value="DIGITAL"
+              checked={deliveryType === "DIGITAL"}
+              onChange={(event) => setDeliveryType(event.target.value)}
+              className="mt-1"
+            />
+
+            <div>
+              <p className="font-semibold text-gray-900">
+                Digital Delivery
+              </p>
+
+              <p className="mt-1 text-sm text-gray-500">
+                Receive your completed work digitally through your account,
+                email, WhatsApp, or another agreed method.
+              </p>
+            </div>
+          </label>
+
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
+            <input
+              type="radio"
+              name="deliveryType"
+              value="PHYSICAL"
+              checked={deliveryType === "PHYSICAL"}
+              onChange={(event) => setDeliveryType(event.target.value)}
+              className="mt-1"
+            />
+
+            <div>
+              <p className="font-semibold text-gray-900">
+                Physical Delivery
+              </p>
+
+              <p className="mt-1 text-sm text-gray-500">
+                Receive the completed physical material at your delivery
+                address.
+              </p>
+            </div>
+          </label>
+        </div>
       </div>
-    </label>
-  </div>
-</div>
+
+      {deliveryType === "PHYSICAL" && (
+        <div className="space-y-5 rounded-2xl border border-gray-200 bg-gray-50 p-5">
+          <div>
+            <label
+              htmlFor="deliveryAddress"
+              className="block text-sm font-semibold text-gray-900"
+            >
+              Delivery Address
+            </label>
+
+            <textarea
+              id="deliveryAddress"
+              value={deliveryAddress}
+              onChange={(event) => setDeliveryAddress(event.target.value)}
+              rows={3}
+              placeholder="House/Flat, Street, Locality"
+              className="mt-2 w-full resize-none rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+            />
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label
+                htmlFor="city"
+                className="block text-sm font-semibold text-gray-900"
+              >
+                City
+              </label>
+
+              <input
+                id="city"
+                type="text"
+                value={city}
+                onChange={(event) => setCity(event.target.value)}
+                placeholder="e.g. Sasaram"
+                className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="state"
+                className="block text-sm font-semibold text-gray-900"
+              >
+                State
+              </label>
+
+              <input
+                id="state"
+                type="text"
+                value={state}
+                onChange={(event) => setState(event.target.value)}
+                placeholder="e.g. Bihar"
+                className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor="pincode"
+              className="block text-sm font-semibold text-gray-900"
+            >
+              PIN Code
+            </label>
+
+            <input
+              id="pincode"
+              type="text"
+              value={pincode}
+              onChange={(event) =>
+                setPincode(event.target.value.replace(/\D/g, "").slice(0, 6))
+              }
+              placeholder="e.g. 821115"
+              inputMode="numeric"
+              maxLength={6}
+              className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+            />
+          </div>
+        </div>
+      )}
+
+      <div>
+        <p className="block text-sm font-semibold text-gray-900">
+          Payment Method
+        </p>
+
+        <div className="mt-3 space-y-3">
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="COD"
+              checked={paymentMethod === "COD"}
+              onChange={(event) => setPaymentMethod(event.target.value)}
+              className="mt-1"
+            />
+
+            <div>
+              <p className="font-semibold text-gray-900">
+                Cash on Delivery (COD)
+              </p>
+
+              <p className="mt-1 text-sm text-gray-500">
+                Pay when your order is delivered.
+              </p>
+            </div>
+          </label>
+
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="UPI"
+              checked={paymentMethod === "UPI"}
+              onChange={(event) => setPaymentMethod(event.target.value)}
+              className="mt-1"
+            />
+
+            <div>
+              <p className="font-semibold text-gray-900">UPI / QR Code</p>
+
+              <p className="mt-1 text-sm text-gray-500">
+                We will send you the UPI QR code through WhatsApp after your
+                order is placed.
+              </p>
+            </div>
+          </label>
+        </div>
+      </div>
 
       {error && (
         <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
