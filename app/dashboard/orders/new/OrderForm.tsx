@@ -18,10 +18,11 @@ export default function OrderForm({
   const [plan, setPlan] = useState(initialPlan);
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("COD");
+  const [paymentMethod, setPaymentMethod] = useState("UPI");
 
   const [customerPhone, setCustomerPhone] = useState("");
   const [deliveryType, setDeliveryType] = useState("DIGITAL");
+  const [deliveryMethod, setDeliveryMethod] = useState("PICKUP");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -47,19 +48,26 @@ export default function OrderForm({
     }
 
     if (deliveryType === "PHYSICAL") {
-      if (
-        !deliveryAddress.trim() ||
-        !city.trim() ||
-        !state.trim() ||
-        !pincode.trim()
-      ) {
-        setError("Please complete your delivery address.");
+      if (!["PICKUP", "DOOR_DELIVERY"].includes(deliveryMethod)) {
+        setError("Please select a delivery method.");
         return;
       }
 
-      if (!/^\d{6}$/.test(pincode.trim())) {
-        setError("Please enter a valid 6-digit PIN code.");
-        return;
+      if (deliveryMethod === "DOOR_DELIVERY") {
+        if (
+          !deliveryAddress.trim() ||
+          !city.trim() ||
+          !state.trim() ||
+          !pincode.trim()
+        ) {
+          setError("Please complete your delivery address.");
+          return;
+        }
+
+        if (!/^\d{6}$/.test(pincode.trim())) {
+          setError("Please enter a valid 6-digit PIN code.");
+          return;
+        }
       }
     }
 
@@ -79,13 +87,28 @@ export default function OrderForm({
           paymentMethod,
           customerPhone: customerPhone.trim(),
           deliveryType,
+          deliveryMethod:
+            deliveryType === "PHYSICAL" ? deliveryMethod : "",
           deliveryAddress:
-            deliveryType === "PHYSICAL"
+            deliveryType === "PHYSICAL" &&
+            deliveryMethod === "DOOR_DELIVERY"
               ? deliveryAddress.trim()
               : "",
-          city: deliveryType === "PHYSICAL" ? city.trim() : "",
-          state: deliveryType === "PHYSICAL" ? state.trim() : "",
-          pincode: deliveryType === "PHYSICAL" ? pincode.trim() : "",
+          city:
+            deliveryType === "PHYSICAL" &&
+            deliveryMethod === "DOOR_DELIVERY"
+              ? city.trim()
+              : "",
+          state:
+            deliveryType === "PHYSICAL" &&
+            deliveryMethod === "DOOR_DELIVERY"
+              ? state.trim()
+              : "",
+          pincode:
+            deliveryType === "PHYSICAL" &&
+            deliveryMethod === "DOOR_DELIVERY"
+              ? pincode.trim()
+              : "",
         }),
       });
 
@@ -214,7 +237,10 @@ export default function OrderForm({
               name="deliveryType"
               value="DIGITAL"
               checked={deliveryType === "DIGITAL"}
-              onChange={(event) => setDeliveryType(event.target.value)}
+              onChange={(event) => {
+                setDeliveryType(event.target.value);
+                setPaymentMethod("UPI");
+              }}
               className="mt-1"
             />
 
@@ -246,8 +272,8 @@ export default function OrderForm({
               </p>
 
               <p className="mt-1 text-sm text-gray-500">
-                Receive the completed physical material at your delivery
-                address.
+                Receive the completed physical material at your chosen
+                delivery method.
               </p>
             </div>
           </label>
@@ -257,82 +283,146 @@ export default function OrderForm({
       {deliveryType === "PHYSICAL" && (
         <div className="space-y-5 rounded-2xl border border-gray-200 bg-gray-50 p-5">
           <div>
-            <label
-              htmlFor="deliveryAddress"
-              className="block text-sm font-semibold text-gray-900"
-            >
-              Delivery Address
-            </label>
+            <p className="block text-sm font-semibold text-gray-900">
+              Delivery Method
+            </p>
 
-            <textarea
-              id="deliveryAddress"
-              value={deliveryAddress}
-              onChange={(event) => setDeliveryAddress(event.target.value)}
-              rows={3}
-              placeholder="House/Flat, Street, Locality"
-              className="mt-2 w-full resize-none rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-            />
-          </div>
+            <div className="mt-3 space-y-3">
+              <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
+                <input
+                  type="radio"
+                  name="deliveryMethod"
+                  value="PICKUP"
+                  checked={deliveryMethod === "PICKUP"}
+                  onChange={(event) =>
+                    setDeliveryMethod(event.target.value)
+                  }
+                  className="mt-1"
+                />
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            <div>
-              <label
-                htmlFor="city"
-                className="block text-sm font-semibold text-gray-900"
-              >
-                City
+                <div>
+                  <p className="font-semibold text-gray-900">
+                    Pickup from ScriptEdge
+                  </p>
+
+                  <p className="mt-1 text-sm text-gray-500">
+                    Collect your completed physical order from ScriptEdge.
+                  </p>
+                </div>
               </label>
 
-              <input
-                id="city"
-                type="text"
-                value={city}
-                onChange={(event) => setCity(event.target.value)}
-                placeholder="e.g. Sasaram"
-                className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-              />
-            </div>
+              <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
+                <input
+                  type="radio"
+                  name="deliveryMethod"
+                  value="DOOR_DELIVERY"
+                  checked={deliveryMethod === "DOOR_DELIVERY"}
+                  onChange={(event) =>
+                    setDeliveryMethod(event.target.value)
+                  }
+                  className="mt-1"
+                />
 
-            <div>
-              <label
-                htmlFor="state"
-                className="block text-sm font-semibold text-gray-900"
-              >
-                State
+                <div>
+                  <p className="font-semibold text-gray-900">
+                    Door Delivery
+                  </p>
+
+                  <p className="mt-1 text-sm text-gray-500">
+                    Get your physical order delivered to your address.
+                    Delivery charges may apply depending on location and
+                    availability.
+                  </p>
+                </div>
               </label>
-
-              <input
-                id="state"
-                type="text"
-                value={state}
-                onChange={(event) => setState(event.target.value)}
-                placeholder="e.g. Bihar"
-                className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-              />
             </div>
           </div>
 
-          <div>
-            <label
-              htmlFor="pincode"
-              className="block text-sm font-semibold text-gray-900"
-            >
-              PIN Code
-            </label>
+          {deliveryMethod === "DOOR_DELIVERY" && (
+            <div className="space-y-5">
+              <div>
+                <label
+                  htmlFor="deliveryAddress"
+                  className="block text-sm font-semibold text-gray-900"
+                >
+                  Delivery Address
+                </label>
 
-            <input
-              id="pincode"
-              type="text"
-              value={pincode}
-              onChange={(event) =>
-                setPincode(event.target.value.replace(/\D/g, "").slice(0, 6))
-              }
-              placeholder="e.g. 821115"
-              inputMode="numeric"
-              maxLength={6}
-              className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
-            />
-          </div>
+                <textarea
+                  id="deliveryAddress"
+                  value={deliveryAddress}
+                  onChange={(event) =>
+                    setDeliveryAddress(event.target.value)
+                  }
+                  rows={3}
+                  placeholder="House/Flat, Street, Locality"
+                  className="mt-2 w-full resize-none rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+                />
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="city"
+                    className="block text-sm font-semibold text-gray-900"
+                  >
+                    City
+                  </label>
+
+                  <input
+                    id="city"
+                    type="text"
+                    value={city}
+                    onChange={(event) => setCity(event.target.value)}
+                    placeholder="e.g. Sasaram"
+                    className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="state"
+                    className="block text-sm font-semibold text-gray-900"
+                  >
+                    State
+                  </label>
+
+                  <input
+                    id="state"
+                    type="text"
+                    value={state}
+                    onChange={(event) => setState(event.target.value)}
+                    placeholder="e.g. Bihar"
+                    className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="pincode"
+                  className="block text-sm font-semibold text-gray-900"
+                >
+                  PIN Code
+                </label>
+
+                <input
+                  id="pincode"
+                  type="text"
+                  value={pincode}
+                  onChange={(event) =>
+                    setPincode(
+                      event.target.value.replace(/\D/g, "").slice(0, 6),
+                    )
+                  }
+                  placeholder="e.g. 821115"
+                  inputMode="numeric"
+                  maxLength={6}
+                  className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -342,26 +432,30 @@ export default function OrderForm({
         </p>
 
         <div className="mt-3 space-y-3">
-          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="COD"
-              checked={paymentMethod === "COD"}
-              onChange={(event) => setPaymentMethod(event.target.value)}
-              className="mt-1"
-            />
+          {deliveryType === "PHYSICAL" && (
+            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="COD"
+                checked={paymentMethod === "COD"}
+                onChange={(event) =>
+                  setPaymentMethod(event.target.value)
+                }
+                className="mt-1"
+              />
 
-            <div>
-              <p className="font-semibold text-gray-900">
-                Cash on Delivery (COD)
-              </p>
+              <div>
+                <p className="font-semibold text-gray-900">
+                  Cash on Delivery (COD)
+                </p>
 
-              <p className="mt-1 text-sm text-gray-500">
-                Pay when your order is delivered.
-              </p>
-            </div>
-          </label>
+                <p className="mt-1 text-sm text-gray-500">
+                  Pay when your physical order is delivered.
+                </p>
+              </div>
+            </label>
+          )}
 
           <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-300 p-4">
             <input
@@ -369,12 +463,16 @@ export default function OrderForm({
               name="paymentMethod"
               value="UPI"
               checked={paymentMethod === "UPI"}
-              onChange={(event) => setPaymentMethod(event.target.value)}
+              onChange={(event) =>
+                setPaymentMethod(event.target.value)
+              }
               className="mt-1"
             />
 
             <div>
-              <p className="font-semibold text-gray-900">UPI / QR Code</p>
+              <p className="font-semibold text-gray-900">
+                UPI / QR Code
+              </p>
 
               <p className="mt-1 text-sm text-gray-500">
                 We will send you the UPI QR code through WhatsApp after your
@@ -383,6 +481,12 @@ export default function OrderForm({
             </div>
           </label>
         </div>
+
+        {deliveryType === "DIGITAL" && (
+          <p className="mt-2 text-xs text-gray-500">
+            Digital orders require advance payment.
+          </p>
+        )}
       </div>
 
       {error && (

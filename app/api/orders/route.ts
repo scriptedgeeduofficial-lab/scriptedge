@@ -45,6 +45,7 @@ export async function POST(request: Request) {
 
     const customerPhone = String(body.customerPhone ?? "").trim();
     const deliveryType = String(body.deliveryType ?? "").trim();
+    const deliveryMethod = String(body.deliveryMethod ?? "").trim();
     const deliveryAddress = String(body.deliveryAddress ?? "").trim();
     const city = String(body.city ?? "").trim();
     const state = String(body.state ?? "").trim();
@@ -65,6 +66,16 @@ export async function POST(request: Request) {
         {
           success: false,
           message: "Invalid payment method.",
+        },
+        { status: 400 },
+      );
+    }
+
+    if (deliveryType === "DIGITAL" && paymentMethod === "COD") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Cash on Delivery is not available for digital delivery.",
         },
         { status: 400 },
       );
@@ -100,25 +111,50 @@ export async function POST(request: Request) {
       );
     }
 
-    if (deliveryType === "PHYSICAL") {
-      if (!deliveryAddress || !city || !state || !pincode) {
+    if (deliveryType === "DIGITAL") {
+      if (deliveryMethod) {
         return NextResponse.json(
           {
             success: false,
-            message: "Complete delivery address is required for physical delivery.",
+            message: "Delivery method is not applicable to digital orders.",
+          },
+          { status: 400 },
+        );
+      }
+    }
+
+    if (deliveryType === "PHYSICAL") {
+      if (!["PICKUP", "DOOR_DELIVERY"].includes(deliveryMethod)) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Please select a valid physical delivery method.",
           },
           { status: 400 },
         );
       }
 
-      if (!/^\d{6}$/.test(pincode)) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: "Please enter a valid 6-digit PIN code.",
-          },
-          { status: 400 },
-        );
+      if (deliveryMethod === "DOOR_DELIVERY") {
+        if (!deliveryAddress || !city || !state || !pincode) {
+          return NextResponse.json(
+            {
+              success: false,
+              message:
+                "Complete delivery address is required for door delivery.",
+            },
+            { status: 400 },
+          );
+        }
+
+        if (!/^\d{6}$/.test(pincode)) {
+          return NextResponse.json(
+            {
+              success: false,
+              message: "Please enter a valid 6-digit PIN code.",
+            },
+            { status: 400 },
+          );
+        }
       }
     }
 
@@ -150,10 +186,27 @@ export async function POST(request: Request) {
         paymentStatus: "PENDING",
         customerPhone,
         deliveryType,
-        deliveryAddress: deliveryType === "PHYSICAL" ? deliveryAddress : null,
-        city: deliveryType === "PHYSICAL" ? city : null,
-        state: deliveryType === "PHYSICAL" ? state : null,
-        pincode: deliveryType === "PHYSICAL" ? pincode : null,
+        deliveryMethod: deliveryType === "PHYSICAL" ? deliveryMethod : null,
+        deliveryAddress:
+          deliveryType === "PHYSICAL" &&
+          deliveryMethod === "DOOR_DELIVERY"
+            ? deliveryAddress
+            : null,
+        city:
+          deliveryType === "PHYSICAL" &&
+          deliveryMethod === "DOOR_DELIVERY"
+            ? city
+            : null,
+        state:
+          deliveryType === "PHYSICAL" &&
+          deliveryMethod === "DOOR_DELIVERY"
+            ? state
+            : null,
+        pincode:
+          deliveryType === "PHYSICAL" &&
+          deliveryMethod === "DOOR_DELIVERY"
+            ? pincode
+            : null,
       })
       .returning();
 

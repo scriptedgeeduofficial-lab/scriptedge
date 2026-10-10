@@ -150,15 +150,11 @@ export const orders = pgTable(
     customerPhone: text("customer_phone"),
 
     deliveryType: text("delivery_type"),
-
+    deliveryMethod: text("delivery_method"),
     deliveryAddress: text("delivery_address"),
-
     city: text("city"),
-
     state: text("state"),
-
     pincode: text("pincode"),
-
     createdAt: timestamp("created_at").defaultNow().notNull(),
 
     updatedAt: timestamp("updated_at")
