@@ -1,16 +1,15 @@
+
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
-
-const servicePricing: Record<string, Record<string, number>> = {
-  Assignment: { Basic: 99, Standard: 119, Premium: 139 },
-  Project: { Basic: 99, Standard: 129, Premium: 169 },
-  "Practical File": { Basic: 249, Standard: 279, Premium: 299 },
-  PPT: { Basic: 99, Standard: 199, Premium: 299 },
-  "Combo Pack": { Basic: 1499, Standard: 1649, Premium: 1799 },
-};
+import {
+  getOfferPrice,
+  servicePricing,
+  type PricedService,
+  type PricingPlan,
+} from "@/app/data/servicePricing";
 
 function generateOrderNumber() {
   const timestamp = Date.now().toString().slice(-8);
@@ -158,9 +157,13 @@ export async function POST(request: Request) {
       }
     }
 
-    const amount = servicePricing[service]?.[plan];
+    const validServices = Object.keys(servicePricing) as PricedService[];
 
-    if (amount === undefined) {
+    const validPlans = ["Basic", "Standard", "Premium"] as const;
+    if (
+      !validServices.includes(service as (typeof validServices)[number]) ||
+      !validPlans.includes(plan as (typeof validPlans)[number])
+    ) {
       return NextResponse.json(
         {
           success: false,
@@ -169,6 +172,11 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+
+    const amount = getOfferPrice(
+      service as PricedService,
+      plan as PricingPlan,
+    );
 
     const order = await db
       .insert(orders)

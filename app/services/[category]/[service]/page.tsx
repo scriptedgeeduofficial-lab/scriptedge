@@ -3,7 +3,12 @@ import Link from "next/link";
 import AnnouncementBar from "../../../components/layout/AnnouncementBar";
 import Navbar from "../../../components/layout/Navbar";
 import Footer from "../../../components/layout/Footer";
-import { servicePricing, type PricingPlan } from "../../../data/servicePricing";
+import {
+  servicePricing,
+  getRegularPrice,
+  getOfferPrice,
+  type PricingPlan,
+} from "../../../data/servicePricing";
 
 const serviceDetails: Record<
   string,
@@ -277,16 +282,36 @@ export default async function ServiceDetailPage({
       .join(" ");
 const pricingServiceMap: Record<string, keyof typeof servicePricing> = {
   assignments: "Assignment",
+  "holiday-homework": "Holiday Homework",
   projects: "Project",
+  "project-reports": "Project Reports",
   "practical-files": "Practical File",
+  "charts-and-models": "Charts & Models",
+  notebooks: "Notebooks",
+  "powerpoint-presentations": "PowerPoint Presentations",
+  "pdf-editing": "PDF Editing",
+  "typing-work": "Typing Work",
+  "document-formatting": "Document Formatting",
+  resume: "Resume",
+  "cover-pages": "Cover Pages",
   ppt: "PPT",
   "combo-pack": "Combo Pack",
 };
 
+const unavailableServiceSlugs = [
+  "seminars",
+  "research-work",
+  "lab-records",
+];
+
+const isServiceUnavailable = unavailableServiceSlugs.includes(service);
+
 const pricingService = pricingServiceMap[service];
-const pricing = pricingService
-  ? servicePricing[pricingService]
-  : null;
+const pricing = isServiceUnavailable
+  ? null
+  : pricingService
+    ? servicePricing[pricingService]
+    : null;
 
   const description =
     serviceInfo?.description ||
@@ -342,6 +367,24 @@ const pricing = pricingService
 
           </div>
         </section>
+
+        {isServiceUnavailable && (
+          <section className="bg-gray-50 px-6 py-8">
+            <div className="mx-auto max-w-3xl rounded-2xl border border-emerald-200 bg-white p-6 text-center shadow-sm">
+              <h2 className="text-2xl font-bold text-emerald-700">
+                We're Working on It!
+              </h2>
+
+              <p className="mt-3 leading-7 text-gray-600">
+                Our ScriptEdge team is carefully preparing the best plans and pricing for this service. Stay tuned!
+              </p>
+
+              <p className="mt-4 font-semibold text-gray-800">
+                — Team ScriptEdge
+              </p>
+            </div>
+          </section>
+        )}
 
         {/* About Service */}
 
@@ -505,14 +548,34 @@ const pricing = pricingService
                     : "Premium quality and presentation"}
               </p>
 
-              <div className="mt-6">
-                <span className="text-4xl font-bold text-gray-900">
-                  ₹{pricing[plan].toLocaleString("en-IN")}
-                </span>
-                <span className="ml-2 text-sm text-gray-500">
-                  per item
-                </span>
-              </div>
+             <div className="mt-6">
+  <div className="text-sm text-gray-500 line-through">
+    Regular price: ₹
+    {getRegularPrice(
+      pricingService,
+      plan,
+    ).toLocaleString("en-IN")}
+  </div>
+
+  <div className="mt-1">
+    <span className="text-4xl font-bold text-gray-900">
+      ₹
+      {getOfferPrice(
+        pricingService,
+        plan,
+      ).toLocaleString("en-IN")}
+    </span>
+    <span className="ml-2 text-sm text-gray-500">
+      per item
+    </span>
+  </div>
+
+  <div className="mt-3 inline-flex flex-col rounded-lg bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700">
+    <span>50% OFF</span>
+    <span>+ EXTRA 10% OFF</span>
+  </div>
+</div>
+
 
               <Link
                 href={`/dashboard/orders/new?service=${encodeURIComponent(
@@ -570,16 +633,18 @@ const pricing = pricingService
 
             <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
 
-              <a
-                href={`https://wa.me/918252517340?text=${encodeURIComponent(
-                  `Hello ScriptEdge, I want to order ${displayTitle}.`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-xl bg-white px-8 py-4 font-semibold text-emerald-700 transition hover:-translate-y-1 hover:shadow-lg"
-              >
-                Order This Service
-              </a>
+                      {!isServiceUnavailable && (
+          <a
+            href={`https://wa.me/918252517340?text=${encodeURIComponent(
+              `Hello ScriptEdge, I want to order ${displayTitle}.`,
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl bg-white px-8 py-4 font-semibold text-emerald-700 transition hover:-translate-y-1 hover:shadow-lg"
+          >
+            Order This Service
+          </a>
+        )}
 
               <Link
                 href="/services"

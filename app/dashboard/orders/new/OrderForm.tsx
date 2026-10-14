@@ -2,6 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  getOfferPrice,
+  getRegularPrice,
+  servicePricing,
+  type PricedService,
+  type PricingPlan,
+} from "@/app/data/servicePricing";
 
 type OrderFormProps = {
   initialService: string;
@@ -30,6 +37,24 @@ export default function OrderForm({
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+    const pricedService = (
+    Object.keys(servicePricing) as PricedService[]
+  ).find((item) => item === service);
+
+  const pricedPlan = (
+    ["Basic", "Standard", "Premium"] as const
+  ).find((item) => item === plan);
+
+  const regularPrice =
+    pricedService && pricedPlan
+      ? getRegularPrice(pricedService, pricedPlan)
+      : null;
+
+  const offerPrice =
+    pricedService && pricedPlan
+      ? getOfferPrice(pricedService, pricedPlan)
+      : null;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -164,6 +189,50 @@ export default function OrderForm({
           className="mt-2 w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700"
         />
       </div>
+
+            {offerPrice !== null && regularPrice !== null && (
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+          <h2 className="text-lg font-bold text-gray-900">
+            Your Offer Summary
+          </h2>
+
+          <div className="mt-4 flex items-center justify-between gap-4">
+            <span className="text-sm text-gray-600">
+              Regular reference price
+            </span>
+            <span className="text-sm text-gray-500 line-through">
+              ₹{regularPrice.toLocaleString("en-IN")}
+            </span>
+          </div>
+
+          <div className="mt-3 flex items-center justify-between gap-4">
+            <span className="text-sm font-semibold text-emerald-700">
+              50% OFF + EXTRA 10% OFF
+            </span>
+            <span className="text-sm font-semibold text-emerald-700">
+              Offer applied
+            </span>
+          </div>
+
+          <div className="mt-4 border-t border-emerald-200 pt-4">
+            <div className="flex items-center justify-between gap-4">
+              <span className="font-semibold text-gray-900">
+                Final price
+              </span>
+              <span className="text-3xl font-bold text-emerald-800">
+                ₹{offerPrice.toLocaleString("en-IN")}
+              </span>
+            </div>
+
+            <p className="mt-2 text-xs text-gray-600">
+              The final price includes both discounts and is rounded up
+              to the nearest rupee. Applicable delivery charges, if any,
+              may be extra.
+            </p>
+          </div>
+        </div>
+      )}
+
 
       <div>
         <label
