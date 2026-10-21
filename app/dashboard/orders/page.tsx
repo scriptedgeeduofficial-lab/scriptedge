@@ -102,14 +102,23 @@ export default async function OrdersPage() {
       </div>
     </div>
 
-    <div className="mt-6 border-t border-gray-100 pt-5">
-      <Link
-        href={`/dashboard/orders/${order.id}`}
-        className="inline-flex rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
-      >
-        View Order
-      </Link>
-    </div>
+
+<div className="mt-6 flex flex-wrap gap-3 border-t border-gray-100 pt-5">
+  <Link
+    href={`/dashboard/orders/${order.id}`}
+    className="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
+  >
+    View Order
+  </Link>
+
+  <Link
+    href={`/dashboard/orders/${order.id}/invoice`}
+    className="inline-flex items-center justify-center rounded-xl border border-[#20345B] px-5 py-3 text-sm font-semibold text-[#20345B] transition hover:bg-gray-50"
+  >
+    View Invoice
+  </Link>
+</div>
+
   </div>
 ))}
           </div>

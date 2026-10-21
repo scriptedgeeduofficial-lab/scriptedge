@@ -149,6 +149,14 @@ export default async function OrderDetailsPage({
                 ₹{order.amount}
               </p>
             </div>
+<div className="mt-6">
+  <Link
+    href={`/dashboard/orders/${order.id}/invoice`}
+    className="inline-flex items-center justify-center rounded-xl bg-[#20345B] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#172746]"
+  >
+    View Invoice
+  </Link>
+</div>
 
             <div>
               <p className="text-sm text-gray-500">
