@@ -92,6 +92,22 @@ export default function Services() {
             Everything you need to complete your academic work professionally.
           </p>
         </div>
+                {/* Starting Price */}
+        <div className="price-reveal mt-6 flex flex-col items-center gap-2 text-center">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-emerald-600">
+              ✨ Affordable Academic Support
+            </span>
+          </div>
+
+         <p className="price-shine text-2xl font-bold tracking-tight sm:text-3xl">
+  Starting from ₹99*
+</p>
+
+          <p className="text-sm text-gray-500">
+            Choose your service and explore available options.
+          </p>
+        </div>
 
         {/* Service Cards */}
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-8">
