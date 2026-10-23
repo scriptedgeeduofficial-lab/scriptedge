@@ -16,7 +16,7 @@ const inter = Inter({
 export const metadata: Metadata = {
     metadataBase: new URL("https://www.scriptedge.co.in"),
   title: {
-    default: "ScriptEdge | Academic Work Made Easy",
+    default: "ScriptEdge | Academic Work, Made Easy",
     template: "%s | ScriptEdge",
   },
 
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "ScriptEdge | Academic Work Made Easy",
+    title: "ScriptEdge | Academic Work, Made Easy",
     description:
       "Professional academic assistance for assignments, projects, practical files and more.",
         url: "https://www.scriptedge.co.in",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary",
-    title: "ScriptEdge | Academic Work Made Easy",
+    title: "ScriptEdge | Academic Work, Made Easy",
     description:
       "Professional academic assistance for assignments, projects, practical files and more.",
   },

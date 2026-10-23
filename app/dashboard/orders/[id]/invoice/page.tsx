@@ -202,7 +202,7 @@ export default async function InvoicePage({
                 Thank you for choosing ScriptEdge.
               </p>
               <p className="mt-1 text-sm text-gray-500">
-                Academic Work Made Easy
+                Academic Work, Made Easy
               </p>
               <p className="mt-2 text-sm text-gray-500">
                 www.scriptedge.co.in | @scriptedge_official.in

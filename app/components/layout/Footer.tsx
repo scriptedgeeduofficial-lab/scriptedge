@@ -61,7 +61,7 @@ export default function Footer() {
             </Link>
 
             <p className="mt-5 max-w-sm text-sm leading-7 text-gray-400 sm:text-base">
-              Academic Work Made Easy.
+              Academic Work, Made Easy.
               We help school and college students complete
               assignments, projects, practical files and academic work
               before deadlines.
