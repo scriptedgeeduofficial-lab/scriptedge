@@ -6,7 +6,7 @@ export default function Hero() {
 
         {/* Trust Badge */}
         <span className="inline-block max-w-[90%] rounded-full bg-emerald-100 px-3 py-1.5 text-center text-xs font-semibold text-emerald-700 sm:max-w-none sm:px-4 sm:py-2 sm:text-sm">
-          India&apos;s Trusted Academic Assistance Platform
+          Academic Work, Made Easy
         </span>
 
         {/* Main Heading */}
