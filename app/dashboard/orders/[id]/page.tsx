@@ -175,7 +175,7 @@ export default async function OrderDetailsPage({
             </p>
 
             <a
-              href="https://wa.me/918252517340"
+              href="https://wa.me/918544522138"
               target="_blank"
               rel="noreferrer"
               className="mt-3 inline-block rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700"

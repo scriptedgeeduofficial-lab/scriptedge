@@ -151,7 +151,7 @@ export default function PricingPage() {
               <div className="mt-8 text-center sm:mt-10">
 
                 <a
-                  href={`https://wa.me/918252517340?text=${encodeURIComponent(
+                  href={`https://wa.me/918544522138?text=${encodeURIComponent(
                     `Hi ScriptEdge, I want to choose the ${activePlan.name} Plan.`
                   )}`}
                   target="_blank"

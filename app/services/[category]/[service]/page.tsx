@@ -635,7 +635,7 @@ const pricing = isServiceUnavailable
 
                       {!isServiceUnavailable && (
           <a
-            href={`https://wa.me/918252517340?text=${encodeURIComponent(
+            href={`https://wa.me/918544522138?text=${encodeURIComponent(
               `Hello ScriptEdge, I want to order ${displayTitle}.`,
             )}`}
             target="_blank"

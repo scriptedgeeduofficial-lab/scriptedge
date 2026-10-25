@@ -117,13 +117,13 @@ export default function Footer() {
             <div className="mt-5 space-y-4">
 
               <a
-                href="https://wa.me/918252517340"
+                href="https://wa.me/918544522138"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-sm text-gray-400 transition hover:text-emerald-400 sm:text-base"
               >
                 <Phone size={18} />
-                <span>+91 8252517340</span>
+                <span>+91 85445 22138</span>
               </a>
 
               <a

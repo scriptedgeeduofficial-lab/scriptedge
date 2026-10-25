@@ -19,7 +19,7 @@ export default function Contact() {
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
 
           <a
-            href="https://wa.me/918252517340"
+            href="https://wa.me/918544522138"
             target="_blank"
             rel="noopener noreferrer"
             className="group min-w-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg"
