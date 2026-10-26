@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   creator: "ScriptEdge",
 
   icons: {
-    icon: "/favicon.ico",
-  },
+  icon: "/icon.svg",
+},
 
   openGraph: {
     title: "ScriptEdge | Academic Work, Made Easy",

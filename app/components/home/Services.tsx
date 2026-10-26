@@ -101,7 +101,7 @@ export default function Services() {
           </div>
 
          <p className="price-shine text-2xl font-bold tracking-tight sm:text-3xl">
-  Starting from ₹99*
+  Starting from ₹79*
 </p>
 
           <p className="text-sm text-gray-500">
