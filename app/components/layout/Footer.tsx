@@ -9,6 +9,7 @@ import {
 const quickLinks = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
+  { name: "Samples", href: "/samples" },
   { name: "Pricing", href: "/pricing" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },

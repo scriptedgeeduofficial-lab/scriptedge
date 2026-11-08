@@ -1,6 +1,8 @@
+
 import AnnouncementBar from "../layout/AnnouncementBar";
 import Navbar from "../layout/Navbar";
 import Footer from "../layout/Footer";
+import FloatingWhatsApp from "./FloatingWhatsApp";
 
 export default function SiteLayout({
   children,
@@ -17,6 +19,7 @@ export default function SiteLayout({
       </main>
 
       <Footer />
+      <FloatingWhatsApp />
     </>
   );
 }

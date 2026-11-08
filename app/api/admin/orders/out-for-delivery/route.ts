@@ -1,3 +1,4 @@
+import { notifyCustomerOrderStatus } from "@/lib/order-notifications";
 import { NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm";
 
@@ -52,6 +53,11 @@ export async function POST(request: Request) {
       status: "OUT_FOR_DELIVERY",
       changedBy: adminSession.user.id,
     });
+    try {
+  await notifyCustomerOrderStatus(order.id, "OUT_FOR_DELIVERY");
+} catch (notificationError) {
+  console.error("Customer OUT_FOR_DELIVERY notification failed:", notificationError);
+}
 
     return NextResponse.redirect(
       new URL("/admin/orders", request.url),

@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { eq } from "drizzle-orm";
@@ -5,6 +6,21 @@ import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { orders, user } from "@/lib/db/schema";
+import { sendScriptEdgeEmail } from "@/lib/email";
+
+function escapeHtml(value: string) {
+  return value.replace(/[&<>"']/g, (char) => {
+    const entities: Record<string, string> = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+
+    return entities[char];
+  });
+}
 
 export async function POST(request: Request) {
   try {
@@ -40,6 +56,8 @@ export async function POST(request: Request) {
     const writerResult = await db
       .select({
         id: user.id,
+        name: user.name,
+        email: user.email,
         role: user.role,
       })
       .from(user)
@@ -62,10 +80,16 @@ export async function POST(request: Request) {
       .update(orders)
       .set({
         writerId: writer.id,
+        writerAssignmentStatus: "PENDING",
         updatedAt: new Date(),
       })
       .where(eq(orders.id, orderId))
-      .returning();
+      .returning({
+        id: orders.id,
+        orderNumber: orders.orderNumber,
+        service: orders.service,
+        title: orders.title,
+      });
 
     if (updatedOrder.length === 0) {
       return NextResponse.json(
@@ -75,6 +99,32 @@ export async function POST(request: Request) {
         },
         { status: 404 },
       );
+    }
+
+    const assignedOrder = updatedOrder[0];
+
+    // Notify the writer without interrupting successful assignment.
+    if (writer.email) {
+      try {
+        await sendScriptEdgeEmail(
+          writer.email,
+          `New Order Assigned - ${assignedOrder.orderNumber}`,
+          `
+            <div style="font-family:Arial,sans-serif;line-height:1.7;">
+              <h2>New ScriptEdge Order Assigned</h2>
+              <p>Hello ${escapeHtml(writer.name || "Writer")},</p>
+              <p>A new order has been assigned to you.</p>
+              <p><strong>Order:</strong> ${escapeHtml(assignedOrder.orderNumber)}</p>
+              <p><strong>Service:</strong> ${escapeHtml(assignedOrder.service)}</p>
+              <p><strong>Title:</strong> ${escapeHtml(assignedOrder.title)}</p>
+              <p>Please log in to your ScriptEdge writer dashboard to review and accept or reject this assignment.</p>
+              <p>&mdash; ScriptEdge Team</p>
+            </div>
+          `,
+        );
+      } catch (notificationError) {
+        console.error("Writer assignment notification failed:", notificationError);
+      }
     }
 
     return NextResponse.redirect(

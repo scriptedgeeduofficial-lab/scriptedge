@@ -128,6 +128,9 @@ export const orders = pgTable(
     writerId: text("writer_id").references(() => user.id, {
       onDelete: "set null",
     }),
+writerAssignmentStatus: text("writer_assignment_status")
+  .notNull()
+  .default("UNASSIGNED"),
 
     service: text("service").notNull(),
 

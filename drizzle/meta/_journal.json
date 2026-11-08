@@ -43,6 +43,13 @@
       "when": 1791463334030,
       "tag": "0005_cheerful_wind_dancer",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793800826659,
+      "tag": "0006_romantic_infant_terrible",
+      "breakpoints": true
     }
   ]
 }

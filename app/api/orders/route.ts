@@ -4,6 +4,9 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
+import { user } from "@/lib/db/schema";
+import { sendScriptEdgeEmail } from "@/lib/email";
 import {
   getOfferPrice,
   servicePricing,
@@ -16,6 +19,19 @@ function generateOrderNumber() {
   const random = Math.floor(100 + Math.random() * 900);
 
   return `SE-${timestamp}-${random}`;
+}
+function escapeHtml(value: string) {
+  return value.replace(/[&<>"']/g, (char) => {
+    const entities: Record<string, string> = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+
+    return entities[char];
+  });
 }
 
 export async function POST(request: Request) {
@@ -218,6 +234,46 @@ export async function POST(request: Request) {
       })
       .returning();
 
+      // Notify admins without interrupting successful order creation.
+try {
+  const admins = await db
+    .select({ email: user.email })
+    .from(user)
+    .where(eq(user.role, "ADMIN"));
+
+  const adminEmails = admins
+    .map((admin) => admin.email)
+    .filter((email): email is string => Boolean(email));
+
+  if (adminEmails.length > 0) {
+    const newOrder = order[0];
+
+    await sendScriptEdgeEmail(
+      adminEmails,
+      `New Order Received - ${newOrder.orderNumber}`,
+      `
+        <div style="font-family:Arial,sans-serif;line-height:1.7;">
+          <h2>New ScriptEdge Order Received</h2>
+          <p>A customer has successfully placed a new order.</p>
+
+          <p><strong>Order:</strong> ${escapeHtml(newOrder.orderNumber)}</p>
+          <p><strong>Customer:</strong> ${escapeHtml(session.user.name || "Customer")}</p>
+          <p><strong>Email:</strong> ${escapeHtml(session.user.email)}</p>
+          <p><strong>Service:</strong> ${escapeHtml(service)}</p>
+          <p><strong>Plan:</strong> ${escapeHtml(plan)}</p>
+          <p><strong>Title:</strong> ${escapeHtml(title)}</p>
+          <p><strong>Amount:</strong> ₹${amount}</p>
+          <p><strong>Payment:</strong> ${escapeHtml(paymentMethod)}</p>
+
+          <p>Please visit your ScriptEdge admin dashboard to review this order.</p>
+          <p>&mdash; ScriptEdge Team</p>
+        </div>
+      `,
+    );
+  }
+} catch (notificationError) {
+  console.error("Admin new-order notification failed:", notificationError);
+}
     return NextResponse.json({
       success: true,
       order: order[0],
