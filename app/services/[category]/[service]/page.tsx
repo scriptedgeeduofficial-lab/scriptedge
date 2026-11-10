@@ -3,6 +3,7 @@ import Link from "next/link";
 import AnnouncementBar from "../../../components/layout/AnnouncementBar";
 import Navbar from "../../../components/layout/Navbar";
 import Footer from "../../../components/layout/Footer";
+import ServicePlanSelector from "../../../components/services/ServicePlanSelector";
 import {
   servicePricing,
   getRegularPrice,
@@ -497,167 +498,82 @@ const pricing = isServiceUnavailable
 
 {/* Pricing Plans */}
 
-{pricing && (
-  <section className="bg-gray-50 py-20">
-    <div className="mx-auto max-w-6xl px-6">
 
-      <div className="text-center">
-        <p className="text-sm font-semibold uppercase tracking-wider text-emerald-600">
-          Choose Your Plan
-        </p>
+{/* Interactive Pricing, Plan Selection and Order CTA */}
 
-        <h2 className="mt-2 text-4xl font-bold text-gray-900">
-          {displayTitle} Pricing
+{pricing && pricingService ? (
+  <ServicePlanSelector
+    displayTitle={displayTitle}
+    pricingService={pricingService}
+    audience={audience}
+    plans={(["Basic", "Standard", "Premium"] as PricingPlan[]).map(
+      (plan) => ({
+        name: plan,
+        description:
+          plan === "Standard"
+            ? "Best balance of quality and price"
+            : plan === "Basic"
+              ? "Affordable academic assistance"
+              : "Premium quality and presentation",
+        regularPrice: getRegularPrice(pricingService, plan),
+        offerPrice: getOfferPrice(pricingService, plan),
+      })
+    )}
+  />
+) : (
+  <>
+    {/* Who Is It For */}
+
+    <section className="py-20">
+      <div className="mx-auto max-w-4xl px-6 text-center">
+        <h2 className="text-4xl font-bold text-gray-900">
+          Who Is This Service For?
         </h2>
 
-        <p className="mx-auto mt-4 max-w-2xl text-gray-600">
-          Choose the plan that best fits your requirements and budget.
+        <p className="mt-5 text-lg text-gray-600">
+          {audience}
         </p>
       </div>
+    </section>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
+    {/* CTA */}
 
-        {(["Basic", "Standard", "Premium"] as PricingPlan[]).map((plan) => {
-          const isStandard = plan === "Standard";
+    <section className="bg-emerald-600 py-20 text-white">
+      <div className="mx-auto max-w-4xl px-6 text-center">
+        <h2 className="text-4xl font-bold">
+          Need This Service?
+        </h2>
 
-          return (
-            <div
-              key={plan}
-              className={`relative rounded-3xl border-2 bg-white p-7 shadow-sm ${
-                isStandard
-                  ? "border-emerald-500 shadow-lg md:-translate-y-2"
-                  : "border-gray-200"
-              }`}
+        <p className="mx-auto mt-5 max-w-2xl text-lg text-emerald-100">
+          Share your requirements and deadline with us. We'll help
+          you get your academic work completed on time.
+        </p>
+
+        <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+          {!isServiceUnavailable && (
+            <a
+              href={`https://wa.me/918544522138?text=${encodeURIComponent(
+                `Hello ScriptEdge, I want to order ${displayTitle}.`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl bg-white px-8 py-4 font-semibold text-emerald-700 transition hover:-translate-y-1 hover:shadow-lg"
             >
+              Order This Service
+            </a>
+          )}
 
-              {isStandard && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-600 px-4 py-1 text-xs font-bold text-white">
-                  Recommended
-                </span>
-              )}
-
-              <h3 className="text-2xl font-bold text-gray-900">
-                {plan}
-              </h3>
-
-              <p className="mt-2 text-sm text-gray-500">
-                {isStandard
-                  ? "Best balance of quality and price"
-                  : plan === "Basic"
-                    ? "Affordable academic assistance"
-                    : "Premium quality and presentation"}
-              </p>
-
-             <div className="mt-6">
-  <div className="text-sm text-gray-500 line-through">
-    Regular price: ₹
-    {getRegularPrice(
-      pricingService,
-      plan,
-    ).toLocaleString("en-IN")}
-  </div>
-
-  <div className="mt-1">
-    <span className="text-4xl font-bold text-gray-900">
-      ₹
-      {getOfferPrice(
-        pricingService,
-        plan,
-      ).toLocaleString("en-IN")}
-    </span>
-    <span className="ml-2 text-sm text-gray-500">
-      per item
-    </span>
-  </div>
-
-  <div className="mt-3 inline-flex flex-col rounded-lg bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700">
-    <span>50% OFF</span>
-    <span>+ EXTRA 10% OFF</span>
-  </div>
-</div>
-
-
-              <Link
-                href={`/dashboard/orders/new?service=${encodeURIComponent(
-                  pricingService
-                )}&plan=${encodeURIComponent(plan)}`}
-                className={`mt-7 block w-full rounded-xl px-5 py-3 text-center font-semibold transition ${
-                  isStandard
-                    ? "bg-emerald-600 text-white hover:bg-emerald-700"
-                    : "border border-emerald-600 text-emerald-700 hover:bg-emerald-50"
-                }`}
-              >
-                Choose {plan}
-              </Link>
-
-            </div>
-          );
-        })}
-
-      </div>
-    </div>
-  </section>
-)}
-        {/* Who Is It For */}
-
-        <section className="py-20">
-
-          <div className="mx-auto max-w-4xl px-6 text-center">
-
-            <h2 className="text-4xl font-bold text-gray-900">
-              Who Is This Service For?
-            </h2>
-
-            <p className="mt-5 text-lg text-gray-600">
-              {audience}
-            </p>
-
-          </div>
-
-        </section>
-
-        {/* CTA */}
-
-        <section className="bg-emerald-600 py-20 text-white">
-
-          <div className="mx-auto max-w-4xl px-6 text-center">
-
-            <h2 className="text-4xl font-bold">
-              Need This Service?
-            </h2>
-
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-emerald-100">
-              Share your requirements and deadline with us. We&apos;ll help
-              you get your academic work completed on time.
-            </p>
-
-            <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-
-                      {!isServiceUnavailable && (
-          <a
-            href={`https://wa.me/918544522138?text=${encodeURIComponent(
-              `Hello ScriptEdge, I want to order ${displayTitle}.`,
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-xl bg-white px-8 py-4 font-semibold text-emerald-700 transition hover:-translate-y-1 hover:shadow-lg"
+          <Link
+            href="/services"
+            className="rounded-xl border border-white px-8 py-4 font-semibold text-white transition hover:bg-white hover:text-emerald-700"
           >
-            Order This Service
-          </a>
-        )}
-
-              <Link
-                href="/services"
-                className="rounded-xl border border-white px-8 py-4 font-semibold text-white transition hover:bg-white hover:text-emerald-700"
-              >
-                Back to Services
-              </Link>
-
-            </div>
-
-          </div>
-
-        </section>
+            Back to Services
+          </Link>
+        </div>
+      </div>
+    </section>
+  </>
+)}
 
       </main>
 
