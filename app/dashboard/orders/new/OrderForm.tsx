@@ -13,11 +13,13 @@ import {
 type OrderFormProps = {
   initialService: string;
   initialPlan: string;
+  isFirstOrderEligible: boolean;
 };
 
 export default function OrderForm({
   initialService,
   initialPlan,
+  isFirstOrderEligible,
 }: OrderFormProps) {
   const router = useRouter();
 
@@ -188,50 +190,70 @@ export default function OrderForm({
           readOnly
           className="mt-2 w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-gray-700"
         />
+        </div>
+{offerPrice !== null && regularPrice !== null && (
+  <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+    <h2 className="text-lg font-bold text-gray-900">
+      Your Price Summary
+    </h2>
+
+    {isFirstOrderEligible ? (
+      <>
+        <div className="mt-4 flex items-center justify-between gap-4">
+          <span className="text-sm text-gray-600">
+            Regular reference price
+          </span>
+          <span className="text-sm text-gray-500 line-through">
+            ₹{regularPrice.toLocaleString("en-IN")}
+          </span>
+        </div>
+
+        <div className="mt-3 flex items-center justify-between gap-4">
+          <span className="text-sm font-semibold text-emerald-700">
+            20% OFF + EXTRA 10% OFF
+          </span>
+          <span className="text-sm font-semibold text-emerald-700">
+            First-order offer
+          </span>
+        </div>
+
+        <p className="mt-2 text-xs text-emerald-700">
+          Valid till 26 December 2026. First order only.
+        </p>
+      </>
+    ) : (
+      <div className="mt-4 flex items-center justify-between gap-4">
+        <span className="text-sm text-gray-600">
+          Regular price
+        </span>
+        <span className="text-sm font-semibold text-gray-900">
+          ₹{regularPrice.toLocaleString("en-IN")}
+        </span>
+      </div>
+    )}
+
+    <div className="mt-4 border-t border-emerald-200 pt-4">
+      <div className="flex items-center justify-between gap-4">
+        <span className="font-semibold text-gray-900">
+          Final price
+        </span>
+        <span className="text-3xl font-bold text-emerald-800">
+          ₹
+          {(isFirstOrderEligible ? offerPrice : regularPrice).toLocaleString(
+            "en-IN"
+          )}
+        </span>
       </div>
 
-            {offerPrice !== null && regularPrice !== null && (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
-          <h2 className="text-lg font-bold text-gray-900">
-            Your Offer Summary
-          </h2>
-
-          <div className="mt-4 flex items-center justify-between gap-4">
-            <span className="text-sm text-gray-600">
-              Regular reference price
-            </span>
-            <span className="text-sm text-gray-500 line-through">
-              ₹{regularPrice.toLocaleString("en-IN")}
-            </span>
-          </div>
-
-          <div className="mt-3 flex items-center justify-between gap-4">
-            <span className="text-sm font-semibold text-emerald-700">
-              50% OFF + EXTRA 10% OFF
-            </span>
-            <span className="text-sm font-semibold text-emerald-700">
-              Offer applied
-            </span>
-          </div>
-
-          <div className="mt-4 border-t border-emerald-200 pt-4">
-            <div className="flex items-center justify-between gap-4">
-              <span className="font-semibold text-gray-900">
-                Final price
-              </span>
-              <span className="text-3xl font-bold text-emerald-800">
-                ₹{offerPrice.toLocaleString("en-IN")}
-              </span>
-            </div>
-
-            <p className="mt-2 text-xs text-gray-600">
-              The final price includes both discounts and is rounded up
-              to the nearest rupee. Applicable delivery charges, if any,
-              may be extra.
-            </p>
-          </div>
-        </div>
-      )}
+      <p className="mt-2 text-xs text-gray-600">
+        {isFirstOrderEligible
+          ? "Both discounts are applied sequentially, and the final amount is rounded up to the nearest rupee."
+          : "First-order offer is not applicable to this account."}{" "}
+        Applicable delivery charges, if any, may be extra.
+      </p>
+    </div>
+  </div>
+)}
 
 
       <div>

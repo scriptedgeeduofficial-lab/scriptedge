@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -6,6 +6,7 @@ import {
   boolean,
   integer,
   index,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -144,6 +145,11 @@ writerAssignmentStatus: text("writer_assignment_status")
 
     amount: integer("amount").notNull().default(0),
 
+    // Pricing and first-order offer details.
+originalAmount: integer("original_amount"),
+discountAmount: integer("discount_amount"),
+offerCode: text("offer_code"),
+
     paymentMethod: text("payment_method").notNull().default("COD"),
 
     paymentStatus: text("payment_status").notNull().default("PENDING"),
@@ -169,6 +175,10 @@ writerAssignmentStatus: text("writer_assignment_status")
     index("orders_userId_idx").on(table.userId),
     index("orders_writerId_idx").on(table.writerId),
     index("orders_status_idx").on(table.status),
+
+    uniqueIndex("orders_first_order_offer_user_unique")
+      .on(table.userId)
+      .where(sql`${table.offerCode} = 'FIRST_ORDER_20_10'`),
   ],
 );
 

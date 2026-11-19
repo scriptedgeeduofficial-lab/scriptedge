@@ -1,8 +1,12 @@
+
 import Link from "next/link";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { eq } from "drizzle-orm";
 
 import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { orders } from "@/lib/db/schema";
 import OrderForm from "./OrderForm";
 
 type NewOrderPageProps = {
@@ -11,6 +15,10 @@ type NewOrderPageProps = {
     plan?: string;
   }>;
 };
+
+const FIRST_ORDER_OFFER_END = new Date(
+  "2026-12-26T23:59:59.999+05:30",
+);
 
 export default async function NewOrderPage({
   searchParams,
@@ -24,6 +32,19 @@ export default async function NewOrderPage({
   }
 
   const { service, plan } = await searchParams;
+
+  // Check whether this customer has ever placed an order.
+  const previousOrders = await db
+    .select({ id: orders.id })
+    .from(orders)
+    .where(eq(orders.userId, session.user.id))
+    .limit(1);
+
+  // This check controls the offer display only.
+  // The backend independently verifies eligibility when creating an order.
+  const isFirstOrderEligible =
+    previousOrders.length === 0 &&
+    Date.now() <= FIRST_ORDER_OFFER_END.getTime();
 
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-12">
@@ -49,6 +70,7 @@ export default async function NewOrderPage({
           <OrderForm
             initialService={service ?? ""}
             initialPlan={plan ?? ""}
+            isFirstOrderEligible={isFirstOrderEligible}
           />
         </div>
       </div>

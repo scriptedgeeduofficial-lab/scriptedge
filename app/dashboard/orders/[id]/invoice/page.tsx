@@ -156,31 +156,44 @@ export default async function InvoicePage({
                   </p>
                 </div>
                 <span className="text-center">1</span>
-                <span className="text-right font-semibold">
-                  {formatAmount(order.amount)}
-                </span>
+                {formatAmount(order.originalAmount ?? order.amount)}
               </div>
-
               <div className="ml-auto mt-5 max-w-sm">
-                <div className="flex justify-between gap-4 px-4 py-3 text-sm">
-                  <span className="text-gray-500">Subtotal</span>
-                  <span>{formatAmount(order.amount)}</span>
-                </div>
-                <div className="flex justify-between gap-4 bg-[#20345B] px-4 py-4 font-bold text-white">
-                  <span>TOTAL</span>
-                  <span>{formatAmount(order.amount)}</span>
-                </div>
-                <p className="mt-2 text-xs text-gray-500">
-                  Total reflects the amount recorded for this order.
-                </p>
-              </div>
+  <div className="flex justify-between gap-4 px-4 py-3 text-sm">
+    <span className="text-gray-500">Subtotal</span>
+    <span>
+      {formatAmount(order.originalAmount ?? order.amount)}
+    </span>
+  </div>
+
+  {order.offerCode === "FIRST_ORDER_20_10" &&
+    (order.discountAmount ?? 0) > 0 && (
+      <div className="flex justify-between gap-4 px-4 py-3 text-sm">
+        <span className="text-emerald-700">
+          First-order discount (20% + extra 10%)
+        </span>
+        <span className="font-semibold text-emerald-700">
+          −{formatAmount(order.discountAmount!)}
+        </span>
+      </div>
+    )}
+
+  <div className="flex justify-between gap-4 bg-[#20345B] px-4 py-4 font-bold text-white">
+    <span>TOTAL</span>
+    <span>{formatAmount(order.amount)}</span>
+  </div>
+
+  <p className="mt-2 text-xs text-gray-500">
+    Total reflects the final amount recorded for this order.
+  </p>
+</div>
             </section>
 
             <section className="grid gap-4 border-y border-gray-200 py-5 text-sm sm:grid-cols-2">
               <div>
                 <p className="text-gray-500">Payment Method</p>
                 <p className="mt-1 font-semibold">{order.paymentMethod}</p>
-              </div>
+            </div>
               <div>
                 <p className="text-gray-500">Order Status</p>
                 <p className="mt-1 font-semibold">{order.status}</p>

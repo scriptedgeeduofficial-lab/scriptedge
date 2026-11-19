@@ -27,7 +27,7 @@ export const servicePricing = Object.fromEntries(
     Object.fromEntries(
       Object.entries(plans).map(([plan, referencePrice]) => [
         plan,
-        Math.ceil(referencePrice * 0.45),
+        Math.ceil(referencePrice * 0.8 * 0.9),
       ]),
     ),
   ]),

@@ -116,8 +116,11 @@ export default function ServicePlanSelector({
                     </div>
 
                     <div className="mt-3 inline-flex flex-col rounded-lg bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700">
-                      <span>50% OFF</span>
-                      <span>+ EXTRA 10% OFF</span>
+                      <span>20% OFF</span>
+<span>+ EXTRA 10% OFF</span>
+<span className="text-xs font-medium">
+  First Order Only
+</span>
                     </div>
                   </div>
 
